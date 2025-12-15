@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    body { background:#f5f6f8; }
+    .card-box{
+      max-width: 520px;
+      margin: 70px auto;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.08);
+    }
+    .btn-wide{ width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="card card-box p-4">
+    <h2 class="text-center fw-semibold mb-4">Register</h2>
+
+    <form id="regForm" novalidate>
+      <!-- Name -->
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input id="regName" type="text" class="form-control" placeholder="Enter name" required>
+        <div class="invalid-feedback">Please enter your name.</div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input id="regEmail" type="email" class="form-control" placeholder="Enter email" required>
+        <div class="invalid-feedback">Please enter a valid email address.</div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input id="regPassword" type="password" class="form-control" placeholder="Password" required>
+        <div class="invalid-feedback">Password must be at least 6 characters long.</div>
+      </div>
+
+      <!-- Phone -->
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input id="regPhone" type="text" class="form-control" placeholder="Enter phone number" required>
+        <div class="invalid-feedback">Please enter a valid phone number.</div>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-wide" type="submit">Register</button>
+
+      <div class="text-center mt-3">
+        <a href="login.html">Already have an account?</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const regForm = document.getElementById("regForm");
+    const nameEl  = document.getElementById("regName");
+    const emailEl = document.getElementById("regEmail");
+    const passEl  = document.getElementById("regPassword");
+    const phoneEl = document.getElementById("regPhone");
+
+    function isValidPhone(v) {
+      return /^\d{10}$/.test(v);
+    }
+
+    function validateRegister() {
+      let ok = true;
+
+      // name required
+      if (!nameEl.value.trim()) {
+        nameEl.classList.add("is-invalid");
+        nameEl.classList.remove("is-valid");
+        ok = false;
+      } else {
+        nameEl.classList.remove("is-invalid");
+        nameEl.classList.add("is-valid");
+      }
+
+      // email required + format
+      if (!emailEl.value.trim() || !emailEl.checkValidity()) {
+        emailEl.classList.add("is-invalid");
+        emailEl.classList.remove("is-valid");
+        ok = false;
+      } else {
+        emailEl.classList.remove("is-invalid");
+        emailEl.classList.add("is-valid");
+      }
+
+      // password required + min 6
+      if (!passEl.value.trim() || passEl.value.trim().length < 6) {
+        passEl.classList.add("is-invalid");
+        passEl.classList.remove("is-valid");
+        ok = false;
+      } else {
+        passEl.classList.remove("is-invalid");
+        passEl.classList.add("is-valid");
+      }
+
+      // phone digits + exactly 10
+      const phoneVal = phoneEl.value.trim();
+      if (!phoneVal || !isValidPhone(phoneVal)) {
+        phoneEl.classList.add("is-invalid");
+        phoneEl.classList.remove("is-valid");
+        ok = false;
+      } else {
+        phoneEl.classList.remove("is-invalid");
+        phoneEl.classList.add("is-valid");
+      }
+
+      return ok;
+    }
+
+    // Keep phone strictly digits while typing (optional but nice)
+    phoneEl.addEventListener("input", () => {
+      phoneEl.value = phoneEl.value.replace(/[^\d]/g, "");
+      validateRegister();
+    });
+
+    [nameEl, emailEl, passEl].forEach(el => el.addEventListener("input", validateRegister));
+
+    regForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (validateRegister()) {
+        alert("Registration Successful");
+        regForm.reset();
+        [nameEl, emailEl, passEl, phoneEl].forEach(el => {
+          el.classList.remove("is-valid");
+          el.classList.remove("is-invalid");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
