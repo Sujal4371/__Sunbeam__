@@ -59,7 +59,6 @@
             type="text"
             class="form-control"
             placeholder="Enter a todo"
-            aria-label="Enter a todo"
           />
           <button class="btn btn-primary" type="submit">Add</button>
         </div>
@@ -86,7 +85,6 @@
     }
 
     function addTodo(todoText) {
-      // Create list item dynamically using createElement()
       const li = document.createElement("li");
       li.className = "list-group-item";
 
@@ -99,7 +97,6 @@
       delBtn.type = "button";
       delBtn.textContent = "Delete";
 
-      // Remove todo using remove()
       delBtn.addEventListener("click", () => {
         li.remove();
         showMsg("Todo deleted");
@@ -126,8 +123,6 @@
       showMsg("Todo added");
     });
 
-    // Optional: add a few sample todos (remove if you don't want)
-    // ["todo 1", "todo 2", "todo 3"].forEach(addTodo);
   </script>
 </body>
 </html>
